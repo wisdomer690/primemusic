@@ -34,7 +34,7 @@ client.on("messageCreate", async (message) => {
     const args = message.content.slice(1).trim().split(" ");
     const command = args.shift().toLowerCase();
   
-    if (command === "play") {
+    if (command === "ara") {
         const query = args.join(" ");
         const player = client.riffy.createConnection({
             guildId: message.guild.id,
@@ -96,7 +96,7 @@ client.on("messageCreate", async (message) => {
         } else {
             message.channel.send("Invalid loop option. Please choose `queue`, `track`, or `none`.");
         }
-    } else if (command === "pause") {
+    } else if (command === "hbs") {
         const player = client.riffy.players.get(message.guild.id); 
         if (!player) return message.channel.send("No player available.");
     
