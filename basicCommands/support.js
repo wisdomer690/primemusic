@@ -4,10 +4,10 @@ module.exports = {
     name: 'support',
     description: 'support server of this Bot',
     execute(message, args) {
-        const supportServerLink = "https://discord.gg/xQF9f9yUEM";
+        const supportServerLink = "https://discord.gg/aJTv9Wf5";
       const githubLink = "https://github.com/GlaceYT";
       const replitLink = "https://replit.com/@GlaceYT";
-      const youtubeLink = "https://www.youtube.com/@GlaceYT";
+      const youtubeLink = "https://www.youtube.com/@Apollo_belvedere";
         const embed = new EmbedBuilder()
             .setColor('#b300ff')
             .setAuthor({
