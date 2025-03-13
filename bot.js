@@ -83,7 +83,7 @@ client.on("messageCreate", async (message) => {
         } else {
             return message.channel.send('There are no results found.');
         }
-    } else if (command === "loop") {
+    } else if (command === "3awd") {
         const player = client.riffy.players.get(message.guild.id); 
         if (!player) return message.channel.send("No player available.");
     
