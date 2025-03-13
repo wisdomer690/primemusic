@@ -108,7 +108,7 @@ client.once('ready', () => {
   setTimeout(() => {
     console.log('\x1b[32m%s\x1b[0m', `|    🎯 Activity sucessfully set!`);
     client.user.setPresence({
-      activities: [{ name: `v@1.7`, type: ActivityType.Watching }],
+      activities: [{ name: `apolloBelvedere`, type: ActivityType.Watching }],
       status: 'idle',
     });
   }, 2000); 
