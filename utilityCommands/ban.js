@@ -9,11 +9,11 @@ module.exports = {
     description: 'Ban a user from the server',
     execute(message, args) {
         if (!message.member.permissions.has('BAN_MEMBERS')) {
-            return message.reply('❌ You do not have permission to use this command.');
+            return message.reply('❌ ghir staff w admins li y9dro ybaniw.');
         }
         const user = message.mentions.users.first();
         if (!user) {
-            return message.reply('❌ You need to mention a user to ban.');
+            return message.reply('❌ iwa tagi li baghi tbani.');
         }
         const member = message.guild.members.cache.get(user.id);
         member.ban();
