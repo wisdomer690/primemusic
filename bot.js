@@ -123,7 +123,7 @@ client.on("messageCreate", async (message) => {
           iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488720762310757/play.png?ex=656b6a2e&is=6558f52e&hm=ae4f01060fe8ae93f062d6574ef064ca0f6b4cf40b172f1bd54d8d405809c7df&',
           url: 'https://discord.gg/xQF9f9yUEM'
         })
-        .setDescription('**lmzzika RJ3AT ... ENJOY..**')
+        .setDescription('**lmzzika RJ3AT 🎶 ... ENJOY✨**')
         .setColor('#2b71ec');
         message.reply({ embeds: [embed] });
 
@@ -175,7 +175,7 @@ client.on("messageCreate", async (message) => {
             .setDescription(chunk);  
             message.channel.send({ embeds: [embed] });
         });
-    } else if (command === "skip") {
+    } else if (command === "doz") {
         const player = client.riffy.players.get(message.guild.id); 
         if (!player) return message.channel.send("No player available.");
     
@@ -188,7 +188,7 @@ client.on("messageCreate", async (message) => {
           iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488721253052426/right-chevron-.png?ex=656b6a2e&is=6558f52e&hm=7a73aa51cb35f25eba52055c7b4a1b56bbf3a6d150643adc15b52dc533236956&',
           url: 'https://discord.gg/xQF9f9yUEM'
         })
-          .setDescription('**Let\'s move on to the next beat...**');
+          .setDescription('** yellah ndozo l next music...**');
         
         message.reply({ embeds: [embed] });
     } else if (command === "shuffle") {
@@ -304,7 +304,7 @@ client.riffy.on("queueEnd", async (player) => {
           iconURL: 'https://cdn.discordapp.com/attachments/1230824451990622299/1230824519220985896/6280-2.gif?ex=6641e8a8&is=66409728&hm=149efc9db2a92eb90c70f0a6fb15618a5b912b528f6b1dcf1b517c77a72a733a&',
           url: 'https://discord.gg/xQF9f9yUEM'
         })
-          .setDescription('**Bye Bye!, No more songs to play...**');
+          .setDescription('**Bye Bye!, MalQitx chi mezzika akhar ...**');
           channel.send({ embeds: [embed] });
       
     }
