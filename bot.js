@@ -6,9 +6,9 @@ const { Classic } = require("musicard");
 const { prefix } = require('./config.json');
 const nodes = [
     {
-        host: "78.46.65.243",
-        port: 5643, 
-        password: "0682240100razor", 
+        host: "new-york-node-1.vortexcloud.xyz",
+        port: 9323, 
+        password: "avinan", 
          secure: false
       },
 ];
@@ -107,11 +107,11 @@ client.on("messageCreate", async (message) => {
           iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488720519049337/pause.png?ex=656b6a2e&is=6558f52e&hm=6695d8141e37330b5426f146ec6705243f497f95f08916a40c1db582c6e07d7e&',
           url: 'https://discord.gg/xQF9f9yUEM'
         })
-        .setDescription('**Halt the beats! Music taking a break..**')
+        .setDescription('**Lmezzika WeQFaT ... RTA7..**')
         .setColor('#2b71ec');
 
         message.reply({ embeds: [embed] });
-    } else if (command === "resume") {
+    } else if (command === "rj3") {
         const player = client.riffy.players.get(message.guild.id); 
         if (!player) return message.channel.send("No player available.");
     
@@ -123,7 +123,7 @@ client.on("messageCreate", async (message) => {
           iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488720762310757/play.png?ex=656b6a2e&is=6558f52e&hm=ae4f01060fe8ae93f062d6574ef064ca0f6b4cf40b172f1bd54d8d405809c7df&',
           url: 'https://discord.gg/xQF9f9yUEM'
         })
-        .setDescription('**Back in action! Let the beats roll..**')
+        .setDescription('**lmzzika RJ3AT ... ENJOY..**')
         .setColor('#2b71ec');
         message.reply({ embeds: [embed] });
 
