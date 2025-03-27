@@ -6,9 +6,9 @@ const { Classic } = require("musicard");
 const { prefix } = require('./config.json');
 const nodes = [
     {
-        host: "new-york-node-1.vortexcloud.xyz",
-        port: 9323, 
-        password: "avinan", 
+        host: "193.226.78.187",
+        port: 9372, 
+        password: "glaceyt", 
          secure: false
       },
 ];
