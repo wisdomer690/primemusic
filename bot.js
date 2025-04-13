@@ -34,13 +34,13 @@ client.on("messageCreate", async (message) => {
     const member = message.guild.members.cache.get(message.author.id);
 
     if (!member || !member.roles.cache.some(role => requiredRoles.includes(role.id))) {
-        return message.reply("عذراً، يجب أن تكون لديك الرولات المناسبة للوصول إلى هذا الأمر.");
+        return message.reply("  ** Only for Wisdom boosters and supporters** <a:Booster:1360832375973609693> **try boosting the server to get acces to this command** <a:diamonda:1360835764807536702> ");
     }
 
     const args = message.content.slice(1).trim().split(" ");
     const command = args.shift().toLowerCase();
 
-    if (command === "ara") {
+    if (command === "play") {
         const query = args.join(" ");
         const player = client.riffy.createConnection({
             guildId: message.guild.id,
@@ -89,7 +89,7 @@ client.on("messageCreate", async (message) => {
         } else {
             return message.channel.send('There are no results found.');
         }
-    } else if (command === "3awd") {
+    } else if (command === "loop") {
         const player = client.riffy.players.get(message.guild.id); 
         if (!player) return message.channel.send("No player available.");
 
@@ -102,7 +102,7 @@ client.on("messageCreate", async (message) => {
         } else {
             message.channel.send("Invalid loop option. Please choose `queue`, `track`, or `none`.");
         }
-    } else if (command === "hbs") {
+    } else if (command === "pause") {
         const player = client.riffy.players.get(message.guild.id); 
         if (!player) return message.channel.send("No player available.");
 
@@ -111,13 +111,13 @@ client.on("messageCreate", async (message) => {
             .setAuthor({
                 name: 'Playback Paused!',
                 iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488720519049337/pause.png?ex=656b6a2e&is=6558f52e&hm=6695d8141e37330b5426f146ec6705243f497f95f08916a40c1db582c6e07d7e&',
-                url: 'https://discord.gg/xQF9f9yUEM'
+                url: 'https://discord.gg/AW2ppwDVts'
             })
-            .setDescription('**Lmezzika WeQFaT ... RTA7..**')
+            .setDescription('**Lmezzika WeQFaT <a:rnx_selfrole_smokemale:1360450579087888575> RTA7**')
             .setColor('#2b71ec');
 
         message.reply({ embeds: [embed] });
-    } else if (command === "rj3") {
+    } else if (command === "resume") {
         const player = client.riffy.players.get(message.guild.id); 
         if (!player) return message.channel.send("No player available.");
 
@@ -129,7 +129,7 @@ client.on("messageCreate", async (message) => {
                 iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488720762310757/play.png?ex=656b6a2e&is=6558f52e&hm=ae4f01060fe8ae93f062d6574ef064ca0f6b4cf40b172f1bd54d8d405809c7df&',
                 url: 'https://discord.gg/xQF9f9yUEM'
             })
-            .setDescription('**lmzzika RJ3AT 🎶 ... ENJOY✨**')
+            .setDescription('**lmzzika RJ3AT <a:playing60:1360826963216044223> ... ENJOY <a:musiccdspin:1360826877559832727> **')
             .setColor('#2b71ec');
         message.reply({ embeds: [embed] });
     }
@@ -175,7 +175,7 @@ client.riffy.on("trackStart", async (player, track) => {
         .setAuthor({
             name: 'Currently playing a Track',
             iconURL: 'https://cdn.discordapp.com/attachments/1140841446228897932/1144671132948103208/giphy.gif', 
-            url: 'https://discord.gg/xQF9f9yUEM'
+            url: 'https://discord.gg/AW2ppwDVts'
         })
         .setDescription(details)
         .setImage("attachment://musicard.png");
@@ -198,7 +198,7 @@ client.riffy.on("queueEnd", async (player) => {
                 iconURL: 'https://cdn.discordapp.com/attachments/1230824451990622299/1230824519220985896/6280-2.gif?ex=6641e8a8&is=66409728&hm=149efc9db2a92eb90c70f0a6fb15618a5b912b528f6b1dcf1b517c77a72a733a&',
                 url: 'https://discord.gg/xQF9f9yUEM'
             })
-            .setDescription('**Bye Bye!, MalQitx chi mezzika akhar ...**');
+            .setDescription('**Bye Bye!, wala dir chi track akher ntmzko <a:hypercatvibe:1360827084863438889> ...**');
         channel.send({ embeds: [embed] });
     }
 });
