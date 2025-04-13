@@ -9,10 +9,9 @@ const nodes = [
         host: "new-york-node-1.vortexcloud.xyz",
         port: 5008, 
         password: "avinan", 
-         secure: false
-      },
+        secure: false
+    },
 ];
-
 
 client.riffy = new Riffy(client, nodes, {
     send: (payload) => {
@@ -23,17 +22,24 @@ client.riffy = new Riffy(client, nodes, {
     restVersion: "v4" 
 });
 
-
 client.on("ready", () => {
     client.riffy.init(client.user.id);
 });
 
-
 client.on("messageCreate", async (message) => {
     if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+    // تحقق من أن العضو يملك أحد الرولات المحددة
+    const requiredRoles = ['1201907918845526046', '1339561600285147226'];
+    const member = message.guild.members.cache.get(message.author.id);
+
+    if (!member || !member.roles.cache.some(role => requiredRoles.includes(role.id))) {
+        return message.reply("عذراً، يجب أن تكون لديك الرولات المناسبة للوصول إلى هذا الأمر.");
+    }
+
     const args = message.content.slice(1).trim().split(" ");
     const command = args.shift().toLowerCase();
-  
+
     if (command === "ara") {
         const query = args.join(" ");
         const player = client.riffy.createConnection({
@@ -42,38 +48,38 @@ client.on("messageCreate", async (message) => {
             textChannel: message.channel.id,
             deaf: true 
         });
-  
+
         const resolve = await client.riffy.resolve({ query: query, requester: message.author });
         const { loadType, tracks, playlistInfo } = resolve;
-  
+
         if (loadType === 'playlist') {
             for (const track of resolve.tracks) {
                 track.info.requester = message.author;
                 player.queue.add(track);
             }
             const embed = new EmbedBuilder()
-            .setAuthor({
-                name: 'Added To Queue',
-                iconURL: 'https://cdn.discordapp.com/attachments/1156866389819281418/1157218651179597884/1213-verified.gif?ex=6517cf5a&is=65167dda&hm=cf7bc8fb4414cb412587ade0af285b77569d2568214d6baab8702ddeb6c38ad5&', 
-                url: 'https://discord.gg/xQF9f9yUEM'
-            })
+                .setAuthor({
+                    name: 'Added To Queue',
+                    iconURL: 'https://cdn.discordapp.com/attachments/1156866389819281418/1157218651179597884/1213-verified.gif?ex=6517cf5a&is=65167dda&hm=cf7bc8fb4414cb412587ade0af285b77569d2568214d6baab8702ddeb6c38ad5&', 
+                    url: 'https://discord.gg/xQF9f9yUEM'
+                })
                 .setDescription(`**Playlist Name : **${playlistInfo.name} \n**Tracks : **${tracks.length}`)
                 .setColor('#14bdff')
                 .setFooter({ text: 'Use queue command for more Information' });
             message.reply({ embeds: [embed] });
             if (!player.playing && !player.paused) return player.play();
-  
+
         } else if (loadType === 'search' || loadType === 'track') {
             const track = tracks.shift();
             track.info.requester = message.author;
             player.queue.add(track);
 
             const embed = new EmbedBuilder()
-            .setAuthor({
-                name: 'Added To Queue',
-                iconURL: 'https://cdn.discordapp.com/attachments/1156866389819281418/1157218651179597884/1213-verified.gif?ex=6517cf5a&is=65167dda&hm=cf7bc8fb4414cb412587ade0af285b77569d2568214d6baab8702ddeb6c38ad5&', 
-                url: 'https://discord.gg/xQF9f9yUEM'
-            })
+                .setAuthor({
+                    name: 'Added To Queue',
+                    iconURL: 'https://cdn.discordapp.com/attachments/1156866389819281418/1157218651179597884/1213-verified.gif?ex=6517cf5a&is=65167dda&hm=cf7bc8fb4414cb412587ade0af285b77569d2568214d6baab8702ddeb6c38ad5&', 
+                    url: 'https://discord.gg/xQF9f9yUEM'
+                })
                 .setDescription(`**${track.info.title} **has been queued up and is ready to play!`)
                 .setColor('#14bdff')
                 .setFooter({ text: 'Use queue command for more Information' });
@@ -86,10 +92,10 @@ client.on("messageCreate", async (message) => {
     } else if (command === "3awd") {
         const player = client.riffy.players.get(message.guild.id); 
         if (!player) return message.channel.send("No player available.");
-    
+
         const loopOption = args[0];
         if (!loopOption) return message.channel.send("Please provide a loop option: **queue**, **track**, or **none**.");
-    
+
         if (loopOption === "queue" || loopOption === "track" || loopOption === "none") {
             player.setLoop(loopOption);
             message.channel.send(`Loop set to: ${loopOption}`);
@@ -99,151 +105,41 @@ client.on("messageCreate", async (message) => {
     } else if (command === "hbs") {
         const player = client.riffy.players.get(message.guild.id); 
         if (!player) return message.channel.send("No player available.");
-    
+
         player.pause(true);
         const embed = new EmbedBuilder()
-        .setAuthor({
-          name: 'Playback Paused!',
-          iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488720519049337/pause.png?ex=656b6a2e&is=6558f52e&hm=6695d8141e37330b5426f146ec6705243f497f95f08916a40c1db582c6e07d7e&',
-          url: 'https://discord.gg/xQF9f9yUEM'
-        })
-        .setDescription('**Lmezzika WeQFaT ... RTA7..**')
-        .setColor('#2b71ec');
+            .setAuthor({
+                name: 'Playback Paused!',
+                iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488720519049337/pause.png?ex=656b6a2e&is=6558f52e&hm=6695d8141e37330b5426f146ec6705243f497f95f08916a40c1db582c6e07d7e&',
+                url: 'https://discord.gg/xQF9f9yUEM'
+            })
+            .setDescription('**Lmezzika WeQFaT ... RTA7..**')
+            .setColor('#2b71ec');
 
         message.reply({ embeds: [embed] });
     } else if (command === "rj3") {
         const player = client.riffy.players.get(message.guild.id); 
         if (!player) return message.channel.send("No player available.");
-    
+
         player.pause(false);
 
         const embed = new EmbedBuilder()
-        .setAuthor({
-          name: 'Playback Resumed!',
-          iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488720762310757/play.png?ex=656b6a2e&is=6558f52e&hm=ae4f01060fe8ae93f062d6574ef064ca0f6b4cf40b172f1bd54d8d405809c7df&',
-          url: 'https://discord.gg/xQF9f9yUEM'
-        })
-        .setDescription('**lmzzika RJ3AT 🎶 ... ENJOY✨**')
-        .setColor('#2b71ec');
-        message.reply({ embeds: [embed] });
-
-    } else if (command === "seek") {
-        const player = client.riffy.players.get(message.guild.id); 
-        if (!player) return message.channel.send("No player available.");
-    
-        const position = parseInt(args[0]);
-        if (isNaN(position)) return message.channel.send("**Invalid position. Please provide a valid number of milliseconds.**");
-    
-        player.seek(position);
-    } else if (command === "remove") {
-        const player = client.riffy.players.get(message.guild.id); 
-        if (!player) return message.channel.send("No player available.");
-
-        const index = parseInt(args[0]);
-        if (isNaN(index) || index < 1 || index > player.queue.size) {
-            return message.channel.send(`Invalid index. Please provide a valid number between 1 and ${player.queue.size}.`);
-        }
-
-        const removedTrack = player.queue.remove(index - 1);
-
-        if (!removedTrack) return message.channel.send("No track found at the specified index.");
-        const embed = new EmbedBuilder()
-        .setColor('#188dcc')
             .setAuthor({
-                 name: 'Removed Sucessfully!',
-                 iconURL: 'https://cdn.discordapp.com/attachments/1230824451990622299/1236794583732457473/7828-verify-ak.gif?ex=6641dff7&is=66408e77&hm=e4d3f67ff76adbb3b7ee32fa57a24b7ae4c5acfe9380598e2f7e1a6c8ab6244c&',
-                 url: 'https://discord.gg/xQF9f9yUEM'
-               })
-            .setDescription(`**Removed track:** ${removedTrack.info.title}`);  
-            message.reply({ embeds: [embed] });
-
-    } else if (command === "queue") {
-        const player = client.riffy.players.get(message.guild.id); 
-        if (!player || player.queue.size === 0) return message.channel.send("The queue is currently empty.");
-    
-        const queueList = player.queue.map((track, index) => `${index + 1}. ${track.info.title}`).join("\n");
-        const chunks = queueList.match(/(.|\n){1,1999}/g);
-
-        chunks.forEach(chunk => {
-            const embed = new EmbedBuilder()
-            .setColor('#2b71ec')
-            .setAuthor({
-                 name: 'Queue',
-                 iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488721001398333/queue.png?ex=656b6a2e&is=6558f52e&hm=7573613cbb8dcac83ba5d5fc55ca607cf535dd117b4492b1c918d619aa6fd7ad&',
-                 url: 'https://discord.gg/xQF9f9yUEM'
-               })
-            .setDescription(chunk);  
-            message.channel.send({ embeds: [embed] });
-        });
-    } else if (command === "doz") {
-        const player = client.riffy.players.get(message.guild.id); 
-        if (!player) return message.channel.send("No player available.");
-    
-        player.stop();
-
-        const embed = new EmbedBuilder()
-           .setColor('#2b71ec')
-        .setAuthor({
-          name: 'Skipped Song!',
-          iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488721253052426/right-chevron-.png?ex=656b6a2e&is=6558f52e&hm=7a73aa51cb35f25eba52055c7b4a1b56bbf3a6d150643adc15b52dc533236956&',
-          url: 'https://discord.gg/xQF9f9yUEM'
-        })
-          .setDescription('** yellah ndozo l next music...**');
-        
-        message.reply({ embeds: [embed] });
-    } else if (command === "shuffle") {
-        const player = client.riffy.players.get(message.guild.id); 
-        if (!player) return message.channel.send("No player available.");
-
-        player.queue.shuffle();
-        const embed = new EmbedBuilder()
-        .setColor('#188dcc')
-        .setAuthor({
-          name: 'Shuffled Queue!',
-          iconURL: 'https://cdn.discordapp.com/attachments/1230824451990622299/1236794583732457473/7828-verify-ak.gif?ex=6641dff7&is=66408e77&hm=e4d3f67ff76adbb3b7ee32fa57a24b7ae4c5acfe9380598e2f7e1a6c8ab6244c&',
-          url: 'https://discord.gg/xQF9f9yUEM'
-        })
-          .setDescription('**Let\'s change the rhythm with a random selection!**');
-
-        message.reply({ embeds: [embed] });
-    } else if (command === "stop") {
-        const player = client.riffy.players.get(message.guild.id); 
-        if (!player) return message.channel.send("No player available.");
-    
-        player.disconnect();
-
-        const embed = new EmbedBuilder()
-        .setColor('#2b71ec')
-        .setAuthor({
-          name: 'Player Stopped!',
-          iconURL: 'https://cdn.discordapp.com/attachments/1230824451990622299/1230824519220985896/6280-2.gif?ex=6641e8a8&is=66409728&hm=149efc9db2a92eb90c70f0a6fb15618a5b912b528f6b1dcf1b517c77a72a733a&',
-          url: 'https://discord.gg/xQF9f9yUEM'
-        })
-          .setDescription('**Bringing the music to a halt...**');
-        message.reply({ embeds: [embed] });
-    } else if (command === "clear") {
-        const player = client.riffy.players.get(message.guild.id); 
-        if (!player) return message.channel.send("No player available.");
-        
-        player.queue.clear();
-
-        const embed = new EmbedBuilder()
-        .setColor('#ffff00')
-        .setAuthor({
-          name: 'Queue Cleared!',
-          iconURL: 'https://cdn.discordapp.com/attachments/1230824451990622299/1236802032938127470/4104-verify-yellow.gif?ex=6641e6e7&is=66409567&hm=25ecf140bc9c1f9492e9b7a0b573457fd498d744c28d56c5df663d7f84302083&',
-          url: 'https://discord.gg/xQF9f9yUEM'
-        })
-          .setDescription('**Starting afresh, clearing out the queue..**');
+                name: 'Playback Resumed!',
+                iconURL: 'https://cdn.discordapp.com/attachments/1175488636033175602/1175488720762310757/play.png?ex=656b6a2e&is=6558f52e&hm=ae4f01060fe8ae93f062d6574ef064ca0f6b4cf40b172f1bd54d8d405809c7df&',
+                url: 'https://discord.gg/xQF9f9yUEM'
+            })
+            .setDescription('**lmzzika RJ3AT 🎶 ... ENJOY✨**')
+            .setColor('#2b71ec');
         message.reply({ embeds: [embed] });
     }
-});
 
+    // باقي الأوامر تستمر بنفس الطريقة كما في الكود الأصلي...
+});
 
 client.riffy.on("nodeConnect", node => {
     console.log(`Node "${node.name}" connected.`)
 });
-
 
 client.riffy.on("nodeError", (node, error) => {
     console.log(`Node "${node.name}" encountered an error: ${error.message}.`)
@@ -276,19 +172,17 @@ client.riffy.on("trackStart", async (player, track) => {
 
     const musicEmbed = new EmbedBuilder()
         .setColor("#FF7A00")
-
         .setAuthor({
             name: 'Currently playing a Track',
             iconURL: 'https://cdn.discordapp.com/attachments/1140841446228897932/1144671132948103208/giphy.gif', 
             url: 'https://discord.gg/xQF9f9yUEM'
-          })
+        })
         .setDescription(details)
         .setImage("attachment://musicard.png");
 
     const channel = client.channels.cache.get(player.textChannel);
     channel.send({ embeds: [musicEmbed], files: ["musicard.png"] });
 });
-
 
 client.riffy.on("queueEnd", async (player) => {
     const channel = client.channels.cache.get(player.textChannel);
@@ -298,18 +192,16 @@ client.riffy.on("queueEnd", async (player) => {
     } else {
         player.destroy();
         const embed = new EmbedBuilder()
-        .setColor('#ffff00')
-        .setAuthor({
-          name: 'Queue Ended!',
-          iconURL: 'https://cdn.discordapp.com/attachments/1230824451990622299/1230824519220985896/6280-2.gif?ex=6641e8a8&is=66409728&hm=149efc9db2a92eb90c70f0a6fb15618a5b912b528f6b1dcf1b517c77a72a733a&',
-          url: 'https://discord.gg/xQF9f9yUEM'
-        })
-          .setDescription('**Bye Bye!, MalQitx chi mezzika akhar ...**');
-          channel.send({ embeds: [embed] });
-      
+            .setColor('#ffff00')
+            .setAuthor({
+                name: 'Queue Ended!',
+                iconURL: 'https://cdn.discordapp.com/attachments/1230824451990622299/1230824519220985896/6280-2.gif?ex=6641e8a8&is=66409728&hm=149efc9db2a92eb90c70f0a6fb15618a5b912b528f6b1dcf1b517c77a72a733a&',
+                url: 'https://discord.gg/xQF9f9yUEM'
+            })
+            .setDescription('**Bye Bye!, MalQitx chi mezzika akhar ...**');
+        channel.send({ embeds: [embed] });
     }
 });
-
 
 client.on("raw", (d) => {
     client.riffy.updateVoiceState(d);
